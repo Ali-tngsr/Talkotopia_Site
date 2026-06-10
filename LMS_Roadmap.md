@@ -31,13 +31,13 @@
 - [x] انتخاب فریم‌ورک بک‌اند: NestJS (TypeScript) نهایی شد.
 - [x] راه‌اندازی Monorepo (پیشنهاد: Turborepo + PNPM) برای مدیریت یکپارچه بک‌اند و فرانت‌اند.
 - [x] تنظیم ESLint + Prettier + Husky (pre-commit hooks) برای کل فضای کاری.
-- [ ] تنظیم Docker و docker-compose برای محیط توسعه محلی.
+- [x] تنظیم Docker و docker-compose برای محیط توسعه محلی.
 ### 0.2 راه‌اندازی پایگاه‌داده‌ها
 
-- [ ] نصب و تنظیم **PostgreSQL** در Docker
+- [x] نصب و تنظیم **PostgreSQL** در Docker
   - طراحی اولیه Schema (جداول: users, courses, enrollments, orders, sessions)
   - تنظیم Connection Pooling (pgBouncer یا داخلی NestJS/FastAPI)
-- [ ] نصب و تنظیم **Redis**
+- [x] نصب و تنظیم **Redis**
   - تعریف Key Naming Convention (مثال: `cache:courses:page:1`, `session:userId:xxx`)
   - تنظیم `maxmemory-policy` (توصیه: `allkeys-lru` برای کش)
 - [ ] راه‌اندازی ابزار Migration: **Alembic** (FastAPI) یا **TypeORM Migrations** (NestJS)
