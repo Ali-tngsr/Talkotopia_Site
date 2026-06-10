@@ -29,8 +29,8 @@
 ### 0.1 انتخاب و تنظیم فریم‌ورک بک‌اند
 
 - [x] انتخاب فریم‌ورک بک‌اند: NestJS (TypeScript) نهایی شد.
-- [ ] راه‌اندازی Monorepo (پیشنهاد: Turborepo + PNPM) برای مدیریت یکپارچه بک‌اند و فرانت‌اند.
-- [ ] تنظیم ESLint + Prettier + Husky (pre-commit hooks) برای کل فضای کاری.
+- [x] راه‌اندازی Monorepo (پیشنهاد: Turborepo + PNPM) برای مدیریت یکپارچه بک‌اند و فرانت‌اند.
+- [x] تنظیم ESLint + Prettier + Husky (pre-commit hooks) برای کل فضای کاری.
 - [ ] تنظیم Docker و docker-compose برای محیط توسعه محلی.
 ### 0.2 راه‌اندازی پایگاه‌داده‌ها
 
