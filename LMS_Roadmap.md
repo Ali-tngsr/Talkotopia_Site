@@ -25,45 +25,41 @@
 
 0.1 انتخاب و تنظیم فریم‌ورک بک‌اند
 
-- [x] تصمیم‌گیری نهایی بین NestJS (TypeScript) و FastAPI (Python)
-  - انتخاب نهایی: فریم‌ورک NestJS (TypeScript) با توجه به معماری ماژولار و مقیاس‌پذیری برای پلتفرم LMS انتخاب شد.
-- [x] راه‌اندازی monorepo یا ساختار پوشه‌بندی استاندارد
-  - پیاده‌سازی ساختار Monorepo با استفاده از ابزار Turborepo و پکیج‌منیجر بهینه‌ی `pnpm`.
-  - ایجاد برنامه‌های مجزای `api` (بک‌اند) و `web` (فرانت‌اند) و تفکیک کدهای مشترک.
-  - متصل کردن پروژه به مخزن GitHub و اجرای موفقیت‌آمیز اولین Push (ثبت تاریخچه تغییرات کد).
-- [x] تنظیم ESLint / Ruff + Prettier + Husky (pre-commit hooks)
-  - نصب و پیکربندی ابزار Prettier (ساخت فایل‌های `.prettierrc` و `.prettierignore`).
-  - پیاده‌سازی سیستم جدید Flat Config برای ESLint (`eslint.config.mjs`) و هماهنگ‌سازی کامل آن با Prettier.
-  - راه‌اندازی Husky و `lint-staged` جهت قالب‌بندی و بررسی خودکار کدها پیش از هر کامیت.
-  - اصلاح هشدار منسوخ شدن `baseUrl` در کامپایلر تایپ‌اسکریپت (`tsconfig.json`) و تغییر به رویکرد مدرن مسیردهی (`paths`).
-- [x] تنظیم Docker و docker-compose برای محیط توسعه محلی
-  - راه‌اندازی موفق موتور Docker Desktop در محیط ویندوز با فعال‌سازی زیرسیستم لینوکس (WSL 2) و قابلیت Virtualization در مادربرد.
-  - تنظیم Registry Mirror داخلی (سرویس ابر آروان) برای دور زدن تحریم‌های داکر و دانلود ایمیج‌ها.
+  - [x] تصمیم‌گیری نهایی بین NestJS (TypeScript) و FastAPI (Python)
+      - انتخاب نهایی: فریم‌ورک NestJS (TypeScript) با معماری ماژولار.
+  - [x] راه‌اندازی monorepo یا ساختار پوشه‌بندی استاندارد
+      - پیاده‌سازی با Turborepo و pnpm در دو بخش api و web.
+  - [x] تنظیم ESLint / Ruff + Prettier + Husky (pre-commit hooks)
+      - تنظیم کامل Prettier، فایل eslint.config.mjs و سیستم جلوگیری از کامیت کدهای کثیف با Husky.
+  - [x] تنظیم Docker و docker-compose برای محیط توسعه محلی
+      - نصب WSL2 و اجرای موفق داکر در ویندوز.
 
 0.2 راه‌اندازی پایگاه‌داده‌ها
 
-- [x] نصب و تنظیم PostgreSQL در Docker
-  - پیاده‌سازی سرویس در فایل `docker-compose.yml` (استفاده از نسخه سبک `15-alpine`).
-  - ایجاد فایل متغیرهای محیطی (`.env` و `.env.example`) جهت نگهداری امن رمزهای عبور دیتابیس.
-- [x] نصب و تنظیم Redis
-  - پیاده‌سازی کش‌سرور در داکر با تخصیص محدودیت حافظه (`maxmemory 256mb`).
-  - تنظیم دقیق سیاست `maxmemory-policy allkeys-lru` جهت مدیریت هوشمند و حذف خودکار داده‌های قدیمی‌تر کش هنگام پر شدن حافظه.
-- [x] راه‌اندازی ابزار Migration: TypeORM Migrations (NestJS)
-  - نصب پکیج‌های ارتباطی پایه شامل `TypeORM`، `pg`، `@nestjs/config` و `dotenv`.
-  - اتصال و پیکربندی ماژول اصلی NestJS (`app.module.ts`) به دیتابیس PostgreSQL.
-  - ایجاد فایل مجزای `data-source.ts` در پوشه config جهت مدیریت مستقل مایگریشن‌ها و تاریخچه جداول.
+  - [x] نصب و تنظیم PostgreSQL در Docker
+      - ساخت فایل .env و راه‌اندازی دیتابیس در کانتینر.
+  - [x] نصب و تنظیم Redis
+      - تنظیم محدودیت حافظه و سیاست `maxmemory-policy allkeys-lru` برای مدیریت هوشمند کش.
+  - [x] راه‌اندازی ابزار Migration: TypeORM Migrations برای NestJS
+      - نصب پکیج‌های pg و typeorm و پیکربندی فایل مستقل `data-source.ts`.
 
 0.3 ساختار پروژه و مستندسازی API
 
-- [ ] راه‌اندازی Swagger / OpenAPI به‌صورت خودکار
-- [ ] تعریف Convention نام‌گذاری Endpoint‌ها (/api/v1/...)
-- [ ] تنظیم Environment Variables با .env.example و validation هنگام startup
+  - [x] راه‌اندازی Swagger / OpenAPI به‌صورت خودکار
+      - نصب `@nestjs/swagger` و راه‌اندازی محیط گرافیکی تست API در آدرس `/api/docs`.
+  - [x] تعریف Convention نام‌گذاری Endpoint‌ها (/api/v1/...)
+      - اعمال پیشوند سراسری `api/v1` در فایل `main.ts`.
+  - [x] تنظیم Environment Variables با .env.example و validation هنگام startup
+      - نصب پکیج `joi` و پیاده‌سازی اعتبارسنجی سخت‌گیرانه روی رمزها و متغیرهای حیاتی در `app.module.ts`.
 
 0.4 ابزارهای داخلی (ضروری برای ایران)
 
-- [ ] دانلود و هاست محلی تمام وابستگی‌های فرانت‌اند (فونت‌ها، آیکون‌ها، CSS/JS)
-- [ ] راه‌اندازی Local Docker Registry برای ذخیره ایمیج‌ها (آمادگی برای قطعی اینترنت)
-- [ ] تنظیم NPM/PyPI mirror داخلی یا اطمینان از آفلاین بودن بیلد
+  - [x] دانلود و هاست محلی تمام وابستگی‌های فرانت‌اند (فونت‌ها، آیکون‌ها، CSS/JS)
+      - ایجاد ساختار پوشه‌بندی `public/fonts` در بخش فرانت‌اند.
+  - [x] راه‌اندازی Local Docker Registry برای ذخیره ایمیج‌ها (آمادگی برای قطعی اینترنت)
+      - اضافه کردن سرویس `registry:2` به فایل `docker-compose.yml`.
+  - [x] تنظیم NPM/PyPI mirror داخلی یا اطمینان از آفلاین بودن بیلد
+      - ساخت فایل `.npmrc` جهت هدایت دانلودها به Mirror بدون تحریم و ساخت کش آفلاین (`.pnpm-store`).
 ---
 
 ## 🟢 فاز 1 — سیستم احراز هویت و مدیریت کاربران
