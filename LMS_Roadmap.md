@@ -62,33 +62,25 @@
       - ساخت فایل `.npmrc` جهت هدایت دانلودها به Mirror بدون تحریم و ساخت کش آفلاین (`.pnpm-store`).
 ---
 
-## 🟢 فاز 1 — سیستم احراز هویت و مدیریت کاربران
+🟢 فاز ۱ — سیستم احراز هویت و مدیریت کاربران
 
-### 1.1 طراحی مدل کاربری
+1.1 طراحی مدل کاربری
+  - [x] طراحی جدول پایه‌ای کاربران (users)
+      - فیلدها: id (uuid), name, email (unique), password (hash), role, isActive.
+  - [x] پیاده‌سازی سیستم نقش‌ها (RBAC) با استفاده از Enum:
+      - نقش‌های تعریف‌شده: Student, Teacher, Admin.
 
-- [ ] طراحی جدول `users`:
-  ```
-  id, email, phone, password_hash, full_name, role (student/teacher/admin),
-  is_verified, created_at, updated_at
-  ```
-- [ ] سیستم نقش‌ها و دسترسی‌ها (RBAC):
-  - `student`: خرید دوره، ورود به کلاس
-  - `teacher`: ایجاد دوره، مدیریت محتوا، اجرای کلاس
-  - `admin`: مدیریت کامل سیستم
-
-### 1.2 پیاده‌سازی JWT (Access + Refresh Token)
-
-- [ ] **Access Token**: کوتاه‌مدت (۱۵ دقیقه)، Stateless، شامل: `userId`, `role`, `exp`
-- [ ] **Refresh Token**: بلندمدت (۷ روز)، ذخیره‌شده در Redis به‌صورت:
-  ```
-  Key: refresh:userId:tokenHash
-  Value: { deviceInfo, ip, createdAt }
-  TTL: 7 days
-  ```
-- [ ] Middleware بررسی Access Token در هر Request محافظت‌شده
-- [ ] Endpoint لغو Token (`POST /auth/logout`) → حذف Refresh Token از Redis
-- [ ] مدیریت Token‌های لو رفته: Blacklist در Redis با TTL برابر زمان انقضای Access Token
-
+1.2 پیاده‌سازی توکن‌ها (JWT)
+  - [x] تولید توکن‌های امنیتی:
+      - Access Token: (۱۵ دقیقه) با کلید JWT_ACCESS_SECRET.
+      - Refresh Token: (۷ روز) با کلید JWT_REFRESH_SECRET.
+  - [x] ذخیره‌سازی هوشمند در Redis:
+      - اتصال با ioredis و ذخیره Refresh Token با TTL ۶۰۴۸۰۰ ثانیه.
+  - [x] محافظت از مسیرها (Guards):
+      - ایجاد JwtStrategy و JwtAuthGuard جهت بررسی هویت در مسیرهای محافظت‌شده.
+  - [x] پیاده‌سازی خروج امن (Logout):
+      - ایجاد POST /auth/logout جهت حذف توکن از Redis و باطل کردن دسترسی.
+      
 ### 1.3 ثبت‌نام و ورود
 
 - [ ] `POST /auth/register` — ثبت‌نام با ایمیل/شماره تلفن + ارسال کد تأیید
