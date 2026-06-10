@@ -17,13 +17,13 @@ import { AppService } from './app.service';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: 'localhost', // چون روی سیستم خودتان است و داکر پورت را مپ کرده
+        host: 'localhost', 
         port: 5432,
         username: configService.get<string>('DB_USER'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
         autoLoadEntities: true,
-        // نکته مهم: در محیط پروداکشن باید حتماً false باشد تا از مایگریشن استفاده کنیم
+        // نکته مهم: این گزینه در محیط پروداکشن باید حتماً false باشد
         synchronize: false, 
       }),
     }),
