@@ -83,11 +83,12 @@
       
 ### 1.3 ثبت‌نام و ورود
 
-- [ ] `POST /auth/register` — ثبت‌نام با ایمیل/شماره تلفن + ارسال کد تأیید
-- [ ] `POST /auth/verify-otp` — تأیید OTP (کد از طریق SMS داخلی)
-- [ ] `POST /auth/login` — ورود، بازگشت Access + Refresh Token
-- [ ] `POST /auth/refresh` — دریافت Access Token جدید با Refresh Token
-- [ ] `POST /auth/forgot-password` + `POST /auth/reset-password`
+- [x] `POST /auth/register` — ثبت‌نام با ایمیل + ارسال کد تأیید
+- [x] `POST /auth/verify-otp` — تأیید OTP (کد via Redis)
+- [x] `POST /auth/login` — ورود، بازگشت Access + Refresh Token
+- [x] `POST /auth/refresh` — دریافت Access Token جدید با Refresh Token
+- [x] `POST /auth/forgot-password` — درخواست تغییر رمز
+- [x] `POST /auth/reset-password` — تغییر رمز با توکن موقت
 
 ### 1.4 امنیت و Rate Limiting
 

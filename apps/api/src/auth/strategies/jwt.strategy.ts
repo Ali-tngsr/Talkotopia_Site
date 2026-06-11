@@ -11,7 +11,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       // توکن را از هدر Authorization و با پیشوند Bearer می‌خواند
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false, // توکن‌های منقضی‌شده بلافاصله رد می‌شوند
-      secretOrKey: configService.get<string>('JWT_ACCESS_SECRET'),
+      secretOrKey: configService.get<string>('JWT_ACCESS_SECRET') as string,
     });
   }
 
