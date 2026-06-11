@@ -150,24 +150,24 @@
 - [x] جدول `enrollments`: `id, user_id, course_id, enrolled_at, completed_at`
 - [x] جدول `course_reviews`: `id, user_id, course_id, rating, comment, created_at`
 
-### 2.2 API Endpoint‌های دوره
+### 2.2 API Endpoint‌های دوره 🟢 [تکمیل شده]
 
 **عمومی (Public):**
-- [ ] `GET /courses` — لیست دوره‌ها با Pagination, Filter, Sort (کش‌شده در Redis)
-- [ ] `GET /courses/:slug` — جزئیات دوره (کش‌شده)
-- [ ] `GET /courses/:id/reviews` — نظرات
+- [x] `GET /courses` — لیست دوره‌ها با Pagination, Filter, Sort (کش‌شده در Redis)
+- [x] `GET /courses/:slug` — جزئیات دوره (کش‌شده)
+- [x] `GET /courses/:id/reviews` — نظرات
 
 **مدرس (Teacher):**
-- [ ] `POST /courses` — ایجاد دوره جدید
-- [ ] `PUT /courses/:id` — ویرایش دوره
-- [ ] `POST /courses/:id/sections` — افزودن فصل
-- [ ] `POST /sections/:id/lessons` — افزودن جلسه
-- [ ] `DELETE /lessons/:id`
+- [x] `POST /courses` — ایجاد دوره جدید
+- [x] `PUT /courses/:id` — ویرایش دوره
+- [x] `POST /courses/:id/sections` — افزودن فصل
+- [x] `POST /sections/:id/lessons` — افزودن جلسه
+- [x] `DELETE /lessons/:id`
 
 **دانشجو (Student):**
-- [ ] `GET /my/courses` — دوره‌های خریداری‌شده
-- [ ] `GET /courses/:id/lessons/:lessonId` — دسترسی به محتوا (بررسی enrollment)
-- [ ] `POST /courses/:id/reviews` — ثبت نظر
+- [x] `GET /my/courses` — دوره‌های خریداری‌شده
+- [x] `GET /courses/:id/lessons/:lessonId` — دسترسی به محتوا (بررسی enrollment)
+- [x] `POST /courses/:id/reviews` — ثبت نظر
 
 ### 2.3 کشینگ لیست دوره‌ها با Redis
 
