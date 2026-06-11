@@ -24,4 +24,47 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   getClient(): Redis {
     return this.redisClient;
   }
+
+  async get(key: string): Promise<string | null> {
+    return await this.redisClient.get(key);
+  }
+
+  async set(key: string, value: string, ttlSeconds?: number): Promise<void> {
+    if (ttlSeconds) {
+      await this.redisClient.setex(key, ttlSeconds, value);
+    } else {
+      await this.redisClient.set(key, value);
+    }
+  }
+
+  async delete(key: string): Promise<number> {
+    return await this.redisClient.del(key);
+  }
+
+  async deletePattern(pattern: string): Promise<void> {
+    const keys = await this.redisClient.keys(pattern);
+    if (keys.length > 0) {
+      await this.redisClient.del(...keys);
+    }
+  }
+
+  async increment(key: string, increment: number = 1): Promise<number> {
+    return await this.redisClient.incrby(key, increment);
+  }
+
+  async decrement(key: string, decrement: number = 1): Promise<number> {
+    return await this.redisClient.decrby(key, decrement);
+  }
+
+  async exists(key: string): Promise<number> {
+    return await this.redisClient.exists(key);
+  }
+
+  async expire(key: string, seconds: number): Promise<number> {
+    return await this.redisClient.expire(key, seconds);
+  }
+
+  async ttl(key: string): Promise<number> {
+    return await this.redisClient.ttl(key);
+  }
 }
