@@ -169,15 +169,15 @@
 - [x] `GET /courses/:id/lessons/:lessonId` — دسترسی به محتوا (بررسی enrollment)
 - [x] `POST /courses/:id/reviews` — ثبت نظر
 
-### 2.3 کشینگ لیست دوره‌ها با Redis
+### 2.3 کشینگ لیست دوره‌ها با Redis 🟢 [تکمیل شده]
 
-- [ ] Cache دوره‌های پرطرفدار:
+- [x] Cache دوره‌های پرطرفدار:
   ```
-  Key: cache:courses:list:page:1:sort:popular
+  Key: cache:courses:list:page:${page}:limit:${limit}:sort:${sort}
   TTL: 10 minutes
   ```
-- [ ] Invalidation کش هنگام ویرایش یا انتشار دوره
-- [ ] استراتژی Cache-Aside Pattern
+- [x] Invalidation کش هنگام ویرایش یا انتشار دوره
+- [x] استراتژی Cache-Aside Pattern
 
 ### 2.4 آپلود فایل و مدیریت رسانه
 
