@@ -128,15 +128,15 @@
 
 ## 🟡 فاز 2 — مدیریت دوره‌ها و محتوا
 
-### 2.1 طراحی دیتابیس دوره‌ها
+### 2.1 طراحی دیتابیس دوره‌ها 🟢 [تکمیل شده]
 
-- [ ] جدول `courses`:
+- [x] جدول `courses`:
   ```
   id, title, slug, description, teacher_id, price, discount_price,
   thumbnail, status (draft/published/archived), created_at
   ```
-- [ ] جدول `course_sections` (فصل‌ها): `id, course_id, title, order`
-- [ ] جدول `lessons` (جلسات):
+- [x] جدول `course_sections` (فصل‌ها): `id, course_id, title, order`
+- [x] جدول `lessons` (جلسات):
   ```
   id, section_id, title, order,
   content_type (video/pdf/text),
@@ -147,8 +147,8 @@
   processing_status (pending/processing/ready/failed),
   created_at
   ```
-- [ ] جدول `enrollments`: `id, user_id, course_id, enrolled_at, completed_at`
-- [ ] جدول `course_reviews`: `id, user_id, course_id, rating, comment, created_at`
+- [x] جدول `enrollments`: `id, user_id, course_id, enrolled_at, completed_at`
+- [x] جدول `course_reviews`: `id, user_id, course_id, rating, comment, created_at`
 
 ### 2.2 API Endpoint‌های دوره
 
