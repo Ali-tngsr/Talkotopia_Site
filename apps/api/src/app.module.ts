@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { RedisModule } from './redis/redis.module';
+import { CoursesModule } from './courses/courses.module';
 
 @Module({
   imports: [
@@ -33,13 +34,14 @@ import { RedisModule } from './redis/redis.module';
         username: configService.get<string>('DB_USER'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        autoLoadEntities: true, 
-        synchronize: true,  
+        autoLoadEntities: true,
+        synchronize: true,
       }),
     }),
     UsersModule,
     AuthModule,
     RedisModule,
+    CoursesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
