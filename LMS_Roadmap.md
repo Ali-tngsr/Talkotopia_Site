@@ -105,15 +105,24 @@
 > ۱. **تنظیم دیتابیس در محیط توسعه:** ویژگی `synchronize: true` در تنظیمات دیتابیس `app.module.ts` فعال شد تا جداول به صورت خودکار بر اساس Entityها ساخته شوند. **مهم:** این قابلیت در محیط پروداکشن (Production) باید مطلقاً خاموش شده و از دایکتشن‌های مهاجرت داده (TypeORM Migrations) استفاده شود.
 > ۲. **مستندسازی هدرهای سواگر:** دکوراتور `@ApiBearerAuth()` به مسیر خروج اضافه شد تا Swagger مکانیزم هدر Authorization (توکن Bearer) را به درستی به سمت سرور هدایت کند و از خطای ۴۰۱ در حین تست جلوگیری شود.
 
-### 1.4 امنیت و Rate Limiting
+### 1.4 امنیت و Rate Limiting 🟢 [کامل شده]
 
-- [ ] **Rate Limiting** روی Endpoint‌های حساس با Redis:
+- [x] **Rate Limiting** روی Endpoint‌های حساس با Redis:
   ```
   Key: ratelimit:ip:endpoint
   Max: 5 requests / 1 minute (برای OTP و login)
   ```
-- [ ] Hash کردن پسورد با **bcrypt** (rounds: 12)
-- [ ] جلوگیری از SQL Injection از طریق Parameterized Queries / ORM
+  - پیاده‌سازی: RateLimitGuard در `src/auth/guards/rate-limit.guard.ts`
+  - Endpoints محافظت‌شده: register, verify-otp, login, forgot-password
+  
+- [x] Hash کردن پسورد با **bcrypt** (rounds: 12)
+  - موجود: `auth.service.ts:41` (ثبت‌نام)
+  - موجود: `auth.service.ts:236` (بازنشانی رمز عبور)
+  
+- [x] جلوگیری از SQL Injection از طریق Parameterized Queries / ORM
+  - TypeORM برای تمام عملیات دیتابیسی
+  - هیچ SQL concatenation نیست
+  - تمام Queries به صورت parameterized هستند
 
 ---
 

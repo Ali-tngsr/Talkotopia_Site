@@ -6,7 +6,9 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UsersModule } from '../users/users.module';
 import { RedisModule } from '../redis/redis.module';
+import { RedisService } from '../redis/redis.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { RateLimitGuard } from './guards/rate-limit.guard';
 
 @Module({
   imports: [
@@ -25,7 +27,15 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    {
+      provide: RateLimitGuard,
+      useFactory: (redisService: RedisService) => new RateLimitGuard(redisService, { maxRequests: 5, windowSeconds: 60 }),
+      inject: [RedisService],
+    },
+  ],
   exports: [JwtModule, PassportModule],
 })
 export class AuthModule {}
