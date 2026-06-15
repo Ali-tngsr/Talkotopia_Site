@@ -17,12 +17,12 @@ import { VerifyPaymentDto } from './dtos/payment.dto';
 import { OrdersService } from './orders.service';
 
 @ApiTags('Orders')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('api/v1/orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a pending order for one or more courses' })
@@ -33,6 +33,8 @@ export class OrdersController {
     return await this.ordersService.createOrder(createOrderDto, user.userId);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Get()
   @ApiOperation({ summary: 'Get current user orders' })
   async getMyOrders(@CurrentUser() user: { userId: string; role: string }) {
@@ -50,6 +52,8 @@ export class OrdersController {
     return await this.ordersService.verifyPayment(authority, status);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Post('payments/verify')
   @ApiOperation({ summary: 'Verify a payment manually for MVP/testing' })
   async verifyPayment(@Body() verifyPaymentDto: VerifyPaymentDto) {
@@ -59,6 +63,8 @@ export class OrdersController {
     );
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
   @ApiOperation({ summary: 'Get a single current-user order' })
   async getOrder(
@@ -68,6 +74,8 @@ export class OrdersController {
     return await this.ordersService.getOrder(orderId, user.userId);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Post(':id/payment/request')
   @ApiOperation({
     summary: 'Create an MVP payment request for a pending order',
