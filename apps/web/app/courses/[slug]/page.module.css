@@ -1,0 +1,124 @@
+.page {
+  min-height: 100svh;
+  background: #f6f1e8;
+  padding: 32px;
+  color: #1f2933;
+}
+
+.hero,
+.lessons {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  border-radius: 32px;
+  background: #102a43;
+  color: white;
+  padding: 40px;
+}
+
+.hero p:first-child {
+  color: #f7c948;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  margin-bottom: 12px;
+}
+
+.hero span,
+.description {
+  color: #d9e2ec;
+}
+
+.description {
+  max-width: 640px;
+  margin-top: 20px;
+  line-height: 2;
+}
+
+.purchaseBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 24px;
+  background: white;
+  color: #102a43;
+  padding: 24px;
+}
+
+.purchaseBox strong {
+  font-size: 1.5rem;
+}
+
+.purchaseBox a,
+.lesson a {
+  border-radius: 999px;
+  background: #f7c948;
+  color: #102a43;
+  padding: 12px 18px;
+  text-align: center;
+  font-weight: 900;
+}
+
+.purchaseBox small,
+.lesson small {
+  color: #627d98;
+  line-height: 1.8;
+}
+
+.lessons {
+  margin-top: 28px;
+}
+
+.lessons h2 {
+  margin-bottom: 16px;
+  color: #102a43;
+}
+
+.lesson {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-radius: 20px;
+  background: white;
+  padding: 20px;
+  margin-bottom: 12px;
+  box-shadow: 0 14px 36px rgba(16, 42, 67, 0.08);
+}
+
+.lesson span {
+  color: #0e7490;
+  font-weight: 900;
+}
+
+.lesson h3 {
+  margin: 6px 0;
+}
+
+.lesson p {
+  color: #52606d;
+}
+
+@media (max-width: 800px) {
+  .page {
+    padding: 16px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 28px;
+  }
+
+  .lesson {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
