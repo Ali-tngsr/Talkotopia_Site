@@ -109,7 +109,7 @@ export class CoursesService {
     const cached = await this.redisService.get(cacheKey);
 
     if (cached) {
-      return JSON.parse(cached);
+      return JSON.parse(cached) as Course;
     }
 
     const course = await this.coursesRepository.findOne({
@@ -134,7 +134,7 @@ export class CoursesService {
     const cached = await this.redisService.get(cacheKey);
 
     if (cached) {
-      return JSON.parse(cached);
+      return JSON.parse(cached) as PaginatedCoursesDto;
     }
 
     const [courses, total] = await this.coursesRepository.findAndCount({

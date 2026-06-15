@@ -18,7 +18,7 @@ import { RateLimitGuard } from './guards/rate-limit.guard';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_ACCESS_SECRET'),
         signOptions: {
           expiresIn: '15m', // مدت زمان اکسس توکن طبق نقشه راه
@@ -32,7 +32,8 @@ import { RateLimitGuard } from './guards/rate-limit.guard';
     JwtStrategy,
     {
       provide: RateLimitGuard,
-      useFactory: (redisService: RedisService) => new RateLimitGuard(redisService, { maxRequests: 5, windowSeconds: 60 }),
+      useFactory: (redisService: RedisService) =>
+        new RateLimitGuard(redisService, { maxRequests: 5, windowSeconds: 60 }),
       inject: [RedisService],
     },
   ],

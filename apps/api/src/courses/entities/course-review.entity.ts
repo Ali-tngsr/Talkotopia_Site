@@ -28,7 +28,7 @@ export class CourseReview {
   @Column({ type: 'uuid' })
   course_id: string;
 
-  @ManyToOne(() => Course, course => course.reviews, {
+  @ManyToOne(() => Course, (course) => course.reviews, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'course_id' })

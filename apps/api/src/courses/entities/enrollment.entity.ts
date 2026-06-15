@@ -30,7 +30,7 @@ export class Enrollment {
   @Column({ type: 'uuid' })
   course_id: string;
 
-  @ManyToOne(() => Course, course => course.enrollments, {
+  @ManyToOne(() => Course, (course) => course.enrollments, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'course_id' })

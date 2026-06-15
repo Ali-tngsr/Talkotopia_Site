@@ -17,7 +17,10 @@ export interface RateLimitConfig {
 export class RateLimitGuard implements CanActivate {
   constructor(
     private readonly redisService: RedisService,
-    private readonly config: RateLimitConfig = { maxRequests: 5, windowSeconds: 60 },
+    private readonly config: RateLimitConfig = {
+      maxRequests: 5,
+      windowSeconds: 60,
+    },
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

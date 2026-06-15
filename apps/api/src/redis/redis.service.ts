@@ -18,7 +18,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
   onModuleDestroy() {
     // قطع اتصال هنگام خاموش شدن سرور
-    this.redisClient.quit();
+    void this.redisClient.quit();
   }
 
   getClient(): Redis {

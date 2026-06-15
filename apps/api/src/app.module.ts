@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { RedisModule } from './redis/redis.module';
 import { CoursesModule } from './courses/courses.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -16,7 +17,9 @@ import { CoursesModule } from './courses/courses.module';
       isGlobal: true,
       envFilePath: '../../.env',
       validationSchema: Joi.object({
-        NODE_ENV: Joi.string().valid('development', 'production', 'test').default('development'),
+        NODE_ENV: Joi.string()
+          .valid('development', 'production', 'test')
+          .default('development'),
         PORT: Joi.number().default(3000),
         DB_USER: Joi.string().required(), // اجباری
         DB_PASSWORD: Joi.string().required(), // اجباری
@@ -42,6 +45,7 @@ import { CoursesModule } from './courses/courses.module';
     AuthModule,
     RedisModule,
     CoursesModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

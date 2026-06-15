@@ -23,10 +23,7 @@ import {
   UpdateCourseDto,
   PaginatedCoursesDto,
 } from './dtos/course.dto';
-import {
-  CreateCourseSectionDto,
-  UpdateCourseSectionDto,
-} from './dtos/course-section.dto';
+import { CreateCourseSectionDto } from './dtos/course-section.dto';
 import { CreateLessonDto, UpdateLessonDto } from './dtos/lesson.dto';
 import { CreateReviewDto, UpdateReviewDto } from './dtos/review.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
