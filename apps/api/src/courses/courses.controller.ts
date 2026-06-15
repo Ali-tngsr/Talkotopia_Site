@@ -11,10 +11,22 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiTags,
+  ApiOperation,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { CoursesService } from './courses.service';
-import { CreateCourseDto, UpdateCourseDto, PaginatedCoursesDto } from './dtos/course.dto';
-import { CreateCourseSectionDto, UpdateCourseSectionDto } from './dtos/course-section.dto';
+import {
+  CreateCourseDto,
+  UpdateCourseDto,
+  PaginatedCoursesDto,
+} from './dtos/course.dto';
+import {
+  CreateCourseSectionDto,
+  UpdateCourseSectionDto,
+} from './dtos/course-section.dto';
 import { CreateLessonDto, UpdateLessonDto } from './dtos/lesson.dto';
 import { CreateReviewDto, UpdateReviewDto } from './dtos/review.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -34,7 +46,12 @@ export class CoursesController {
   @ApiOperation({ summary: 'Get list of published courses with pagination' })
   @ApiQuery({ name: 'page', type: Number, required: false, example: 1 })
   @ApiQuery({ name: 'limit', type: Number, required: false, example: 10 })
-  @ApiQuery({ name: 'sort', type: String, required: false, example: 'created_at' })
+  @ApiQuery({
+    name: 'sort',
+    type: String,
+    required: false,
+    example: 'created_at',
+  })
   async listCourses(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
@@ -79,7 +96,11 @@ export class CoursesController {
     @Body() updateCourseDto: UpdateCourseDto,
     @CurrentUser() user: { userId: string; role: string },
   ) {
-    return await this.coursesService.updateCourse(courseId, updateCourseDto, user.userId);
+    return await this.coursesService.updateCourse(
+      courseId,
+      updateCourseDto,
+      user.userId,
+    );
   }
 
   @Post(':id/sections')
@@ -92,7 +113,11 @@ export class CoursesController {
     @Body() createSectionDto: CreateCourseSectionDto,
     @CurrentUser() user: { userId: string; role: string },
   ) {
-    return await this.coursesService.createSection(courseId, createSectionDto, user.userId);
+    return await this.coursesService.createSection(
+      courseId,
+      createSectionDto,
+      user.userId,
+    );
   }
 
   @Post('sections/:sectionId/lessons')
@@ -105,7 +130,30 @@ export class CoursesController {
     @Body() createLessonDto: CreateLessonDto,
     @CurrentUser() user: { userId: string; role: string },
   ) {
-    return await this.coursesService.createLesson(sectionId, createLessonDto, user.userId);
+    return await this.coursesService.createLesson(
+      sectionId,
+      createLessonDto,
+      user.userId,
+    );
+  }
+
+  @Put('lessons/:id')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @RequireRoles(Role.TEACHER, Role.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Update a lesson and its manual video URLs (Teacher only)',
+  })
+  async updateLesson(
+    @Param('id') lessonId: string,
+    @Body() updateLessonDto: UpdateLessonDto,
+    @CurrentUser() user: { userId: string; role: string },
+  ) {
+    return await this.coursesService.updateLesson(
+      lessonId,
+      updateLessonDto,
+      user.userId,
+    );
   }
 
   @Delete('lessons/:id')
@@ -126,8 +174,10 @@ export class CoursesController {
   @Get('my/enrolled')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get user\'s enrolled courses' })
-  async getMyEnrolledCourses(@CurrentUser() user: { userId: string; role: string }) {
+  @ApiOperation({ summary: "Get user's enrolled courses" })
+  async getMyEnrolledCourses(
+    @CurrentUser() user: { userId: string; role: string },
+  ) {
     return await this.coursesService.getMyEnrolledCourses(user.userId);
   }
 
@@ -140,7 +190,45 @@ export class CoursesController {
     @Param('lessonId') lessonId: string,
     @CurrentUser() user: { userId: string; role: string },
   ) {
-    return await this.coursesService.getLessonContent(courseId, lessonId, user.userId);
+    return await this.coursesService.getLessonContent(
+      courseId,
+      lessonId,
+      user.userId,
+    );
+  }
+
+  @Get(':courseId/lessons/:lessonId/media')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get playable lesson media sources for the video player',
+  })
+  async getLessonMedia(
+    @Param('courseId') courseId: string,
+    @Param('lessonId') lessonId: string,
+    @CurrentUser() user: { userId: string; role: string },
+  ) {
+    return await this.coursesService.getLessonMedia(
+      courseId,
+      lessonId,
+      user.userId,
+    );
+  }
+
+  @Get(':courseId/lessons/:lessonId/download/options')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get downloadable quality options for a lesson' })
+  async getLessonDownloadOptions(
+    @Param('courseId') courseId: string,
+    @Param('lessonId') lessonId: string,
+    @CurrentUser() user: { userId: string; role: string },
+  ) {
+    return await this.coursesService.getLessonDownloadOptions(
+      courseId,
+      lessonId,
+      user.userId,
+    );
   }
 
   @Post(':id/reviews')
@@ -152,7 +240,11 @@ export class CoursesController {
     @Body() createReviewDto: CreateReviewDto,
     @CurrentUser() user: { userId: string; role: string },
   ) {
-    return await this.coursesService.addReview(courseId, createReviewDto, user.userId);
+    return await this.coursesService.addReview(
+      courseId,
+      createReviewDto,
+      user.userId,
+    );
   }
 
   @Put('reviews/:id')
@@ -164,7 +256,11 @@ export class CoursesController {
     @Body() updateReviewDto: UpdateReviewDto,
     @CurrentUser() user: { userId: string; role: string },
   ) {
-    return await this.coursesService.updateReview(reviewId, updateReviewDto, user.userId);
+    return await this.coursesService.updateReview(
+      reviewId,
+      updateReviewDto,
+      user.userId,
+    );
   }
 
   @Post(':id/enroll')

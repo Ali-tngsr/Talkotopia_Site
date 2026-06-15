@@ -1,4 +1,13 @@
-import { IsString, IsOptional, IsInt, IsBoolean, IsEnum, IsUrl, MinLength, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsInt,
+  IsBoolean,
+  IsEnum,
+  IsUrl,
+  MinLength,
+  MaxLength,
+} from 'class-validator';
 import { ContentType } from '../content-type.enum';
 
 export class CreateLessonDto {

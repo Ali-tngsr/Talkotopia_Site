@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, BadRequestException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
 import { Course } from './entities/course.entity';
@@ -6,9 +11,17 @@ import { CourseSection } from './entities/course-section.entity';
 import { Lesson } from './entities/lesson.entity';
 import { Enrollment } from './entities/enrollment.entity';
 import { CourseReview } from './entities/course-review.entity';
-import { CreateCourseDto, UpdateCourseDto, PaginatedCoursesDto } from './dtos/course.dto';
-import { CreateCourseSectionDto, UpdateCourseSectionDto } from './dtos/course-section.dto';
+import {
+  CreateCourseDto,
+  UpdateCourseDto,
+  PaginatedCoursesDto,
+} from './dtos/course.dto';
+import {
+  CreateCourseSectionDto,
+  UpdateCourseSectionDto,
+} from './dtos/course-section.dto';
 import { CreateLessonDto, UpdateLessonDto } from './dtos/lesson.dto';
+import { LessonMediaResponseDto, VideoQuality } from './dtos/media.dto';
 import { CreateReviewDto, UpdateReviewDto } from './dtos/review.dto';
 import { CourseStatus } from './course-status.enum';
 import { RedisService } from '../redis/redis.service';
@@ -40,10 +53,15 @@ export class CoursesService {
   ) {}
 
   // Course Management
-  async createCourse(createCourseDto: CreateCourseDto, teacherId: string): Promise<Course> {
+  async createCourse(
+    createCourseDto: CreateCourseDto,
+    teacherId: string,
+  ): Promise<Course> {
     const slug = slugify(createCourseDto.title);
 
-    const existingCourse = await this.coursesRepository.findOne({ where: { slug } });
+    const existingCourse = await this.coursesRepository.findOne({
+      where: { slug },
+    });
     if (existingCourse) {
       throw new BadRequestException('A course with this title already exists');
     }
@@ -58,8 +76,14 @@ export class CoursesService {
     return await this.coursesRepository.save(course);
   }
 
-  async updateCourse(courseId: string, updateCourseDto: UpdateCourseDto, userId: string): Promise<Course> {
-    const course = await this.coursesRepository.findOne({ where: { id: courseId } });
+  async updateCourse(
+    courseId: string,
+    updateCourseDto: UpdateCourseDto,
+    userId: string,
+  ): Promise<Course> {
+    const course = await this.coursesRepository.findOne({
+      where: { id: courseId },
+    });
 
     if (!course) {
       throw new NotFoundException('Course not found');
@@ -101,7 +125,11 @@ export class CoursesService {
     return course;
   }
 
-  async listCourses(page: number = 1, limit: number = 10, sort: string = 'created_at'): Promise<PaginatedCoursesDto> {
+  async listCourses(
+    page: number = 1,
+    limit: number = 10,
+    sort: string = 'created_at',
+  ): Promise<PaginatedCoursesDto> {
     const cacheKey = `courses:list:page:${page}:limit:${limit}:sort:${sort}`;
     const cached = await this.redisService.get(cacheKey);
 
@@ -134,7 +162,7 @@ export class CoursesService {
       where: { user_id: userId },
     });
 
-    const courseIds = enrollments.map(e => e.course_id);
+    const courseIds = enrollments.map((e) => e.course_id);
     if (courseIds.length === 0) {
       return [];
     }
@@ -145,15 +173,23 @@ export class CoursesService {
   }
 
   // Course Sections
-  async createSection(courseId: string, createSectionDto: CreateCourseSectionDto, userId: string): Promise<CourseSection> {
-    const course = await this.coursesRepository.findOne({ where: { id: courseId } });
+  async createSection(
+    courseId: string,
+    createSectionDto: CreateCourseSectionDto,
+    userId: string,
+  ): Promise<CourseSection> {
+    const course = await this.coursesRepository.findOne({
+      where: { id: courseId },
+    });
 
     if (!course) {
       throw new NotFoundException('Course not found');
     }
 
     if (course.teacher_id !== userId) {
-      throw new ForbiddenException('You can only add sections to your own courses');
+      throw new ForbiddenException(
+        'You can only add sections to your own courses',
+      );
     }
 
     const section = this.sectionsRepository.create({
@@ -166,20 +202,30 @@ export class CoursesService {
     return await this.sectionsRepository.save(section);
   }
 
-  async updateSection(sectionId: string, updateSectionDto: UpdateCourseSectionDto, userId: string): Promise<CourseSection> {
-    const section = await this.sectionsRepository.findOne({ where: { id: sectionId } });
+  async updateSection(
+    sectionId: string,
+    updateSectionDto: UpdateCourseSectionDto,
+    userId: string,
+  ): Promise<CourseSection> {
+    const section = await this.sectionsRepository.findOne({
+      where: { id: sectionId },
+    });
 
     if (!section) {
       throw new NotFoundException('Section not found');
     }
 
-    const course = await this.coursesRepository.findOne({ where: { id: section.course_id } });
+    const course = await this.coursesRepository.findOne({
+      where: { id: section.course_id },
+    });
     if (!course) {
       throw new NotFoundException('Course not found');
     }
 
     if (course.teacher_id !== userId) {
-      throw new ForbiddenException('You can only edit sections in your own courses');
+      throw new ForbiddenException(
+        'You can only edit sections in your own courses',
+      );
     }
 
     Object.assign(section, updateSectionDto);
@@ -190,20 +236,30 @@ export class CoursesService {
   }
 
   // Lessons
-  async createLesson(sectionId: string, createLessonDto: CreateLessonDto, userId: string): Promise<Lesson> {
-    const section = await this.sectionsRepository.findOne({ where: { id: sectionId } });
+  async createLesson(
+    sectionId: string,
+    createLessonDto: CreateLessonDto,
+    userId: string,
+  ): Promise<Lesson> {
+    const section = await this.sectionsRepository.findOne({
+      where: { id: sectionId },
+    });
 
     if (!section) {
       throw new NotFoundException('Section not found');
     }
 
-    const course = await this.coursesRepository.findOne({ where: { id: section.course_id } });
+    const course = await this.coursesRepository.findOne({
+      where: { id: section.course_id },
+    });
     if (!course) {
       throw new NotFoundException('Course not found');
     }
 
     if (course.teacher_id !== userId) {
-      throw new ForbiddenException('You can only add lessons to sections in your own courses');
+      throw new ForbiddenException(
+        'You can only add lessons to sections in your own courses',
+      );
     }
 
     const lesson = this.lessonsRepository.create({
@@ -216,25 +272,37 @@ export class CoursesService {
     return await this.lessonsRepository.save(lesson);
   }
 
-  async updateLesson(lessonId: string, updateLessonDto: UpdateLessonDto, userId: string): Promise<Lesson> {
-    const lesson = await this.lessonsRepository.findOne({ where: { id: lessonId } });
+  async updateLesson(
+    lessonId: string,
+    updateLessonDto: UpdateLessonDto,
+    userId: string,
+  ): Promise<Lesson> {
+    const lesson = await this.lessonsRepository.findOne({
+      where: { id: lessonId },
+    });
 
     if (!lesson) {
       throw new NotFoundException('Lesson not found');
     }
 
-    const section = await this.sectionsRepository.findOne({ where: { id: lesson.section_id } });
+    const section = await this.sectionsRepository.findOne({
+      where: { id: lesson.section_id },
+    });
     if (!section) {
       throw new NotFoundException('Section not found');
     }
 
-    const course = await this.coursesRepository.findOne({ where: { id: section.course_id } });
+    const course = await this.coursesRepository.findOne({
+      where: { id: section.course_id },
+    });
     if (!course) {
       throw new NotFoundException('Course not found');
     }
 
     if (course.teacher_id !== userId) {
-      throw new ForbiddenException('You can only edit lessons in your own courses');
+      throw new ForbiddenException(
+        'You can only edit lessons in your own courses',
+      );
     }
 
     Object.assign(lesson, updateLessonDto);
@@ -245,38 +313,54 @@ export class CoursesService {
   }
 
   async deleteLesson(lessonId: string, userId: string): Promise<void> {
-    const lesson = await this.lessonsRepository.findOne({ where: { id: lessonId } });
+    const lesson = await this.lessonsRepository.findOne({
+      where: { id: lessonId },
+    });
 
     if (!lesson) {
       throw new NotFoundException('Lesson not found');
     }
 
-    const section = await this.sectionsRepository.findOne({ where: { id: lesson.section_id } });
+    const section = await this.sectionsRepository.findOne({
+      where: { id: lesson.section_id },
+    });
     if (!section) {
       throw new NotFoundException('Section not found');
     }
 
-    const course = await this.coursesRepository.findOne({ where: { id: section.course_id } });
+    const course = await this.coursesRepository.findOne({
+      where: { id: section.course_id },
+    });
     if (!course) {
       throw new NotFoundException('Course not found');
     }
 
     if (course.teacher_id !== userId) {
-      throw new ForbiddenException('You can only delete lessons from your own courses');
+      throw new ForbiddenException(
+        'You can only delete lessons from your own courses',
+      );
     }
 
     await this.invalidateCourseCache(course.id);
     await this.lessonsRepository.remove(lesson);
   }
 
-  async getLessonContent(courseId: string, lessonId: string, userId: string): Promise<Lesson> {
-    const lesson = await this.lessonsRepository.findOne({ where: { id: lessonId } });
+  async getLessonContent(
+    courseId: string,
+    lessonId: string,
+    userId: string,
+  ): Promise<Lesson> {
+    const lesson = await this.lessonsRepository.findOne({
+      where: { id: lessonId },
+    });
 
     if (!lesson) {
       throw new NotFoundException('Lesson not found');
     }
 
-    const section = await this.sectionsRepository.findOne({ where: { id: lesson.section_id } });
+    const section = await this.sectionsRepository.findOne({
+      where: { id: lesson.section_id },
+    });
     if (!section) {
       throw new NotFoundException('Section not found');
     }
@@ -285,7 +369,9 @@ export class CoursesService {
       throw new NotFoundException('Lesson not found');
     }
 
-    const course = await this.coursesRepository.findOne({ where: { id: courseId } });
+    const course = await this.coursesRepository.findOne({
+      where: { id: courseId },
+    });
     if (!course) {
       throw new NotFoundException('Course not found');
     }
@@ -294,21 +380,102 @@ export class CoursesService {
       where: { course_id: courseId, user_id: userId },
     });
 
-    if (!enrollment && course.teacher_id !== userId) {
-      throw new ForbiddenException('You must be enrolled in this course to access this lesson');
+    if (
+      !enrollment &&
+      course.teacher_id !== userId &&
+      !lesson.is_free_preview
+    ) {
+      throw new ForbiddenException(
+        'You must be enrolled in this course to access this lesson',
+      );
     }
 
     return lesson;
   }
 
+  async getLessonMedia(
+    courseId: string,
+    lessonId: string,
+    userId: string,
+  ): Promise<LessonMediaResponseDto> {
+    const lesson = await this.getLessonContent(courseId, lessonId, userId);
+    return this.buildLessonMediaResponse(lesson, lesson.allow_download);
+  }
+
+  async getLessonDownloadOptions(
+    courseId: string,
+    lessonId: string,
+    userId: string,
+  ): Promise<LessonMediaResponseDto> {
+    const lesson = await this.getLessonContent(courseId, lessonId, userId);
+
+    if (!lesson.allow_download) {
+      throw new ForbiddenException('Downloads are disabled for this lesson');
+    }
+
+    return this.buildLessonMediaResponse(lesson, true);
+  }
+
+  private buildLessonMediaResponse(
+    lesson: Lesson,
+    canDownload: boolean,
+  ): LessonMediaResponseDto {
+    const sources = [
+      {
+        quality: VideoQuality.Q720,
+        url: lesson.quality_720_url,
+        is_default: true,
+        can_download: canDownload,
+        filename: this.buildVideoFilename(lesson.title, VideoQuality.Q720),
+      },
+      lesson.quality_1080_url
+        ? {
+            quality: VideoQuality.Q1080,
+            url: lesson.quality_1080_url,
+            is_default: false,
+            can_download: canDownload,
+            filename: this.buildVideoFilename(lesson.title, VideoQuality.Q1080),
+          }
+        : null,
+      lesson.quality_480_url
+        ? {
+            quality: VideoQuality.Q480,
+            url: lesson.quality_480_url,
+            is_default: false,
+            can_download: canDownload,
+            filename: this.buildVideoFilename(lesson.title, VideoQuality.Q480),
+          }
+        : null,
+    ].filter((source): source is NonNullable<typeof source> => source !== null);
+
+    return {
+      lesson_id: lesson.id,
+      title: lesson.title,
+      default_quality: VideoQuality.Q720,
+      sources,
+      allow_download: lesson.allow_download,
+    };
+  }
+
+  private buildVideoFilename(title: string, quality: VideoQuality): string {
+    const safeTitle = slugify(title) || 'lesson';
+    return `${safeTitle}-${quality}.mp4`;
+  }
+
   // Reviews
-  async addReview(courseId: string, createReviewDto: CreateReviewDto, userId: string): Promise<CourseReview> {
+  async addReview(
+    courseId: string,
+    createReviewDto: CreateReviewDto,
+    userId: string,
+  ): Promise<CourseReview> {
     const enrollment = await this.enrollmentsRepository.findOne({
       where: { course_id: courseId, user_id: userId },
     });
 
     if (!enrollment) {
-      throw new ForbiddenException('You must be enrolled in this course to add a review');
+      throw new ForbiddenException(
+        'You must be enrolled in this course to add a review',
+      );
     }
 
     const existingReview = await this.reviewsRepository.findOne({
@@ -330,8 +497,14 @@ export class CoursesService {
     return await this.reviewsRepository.save(review);
   }
 
-  async updateReview(reviewId: string, updateReviewDto: UpdateReviewDto, userId: string): Promise<CourseReview> {
-    const review = await this.reviewsRepository.findOne({ where: { id: reviewId } });
+  async updateReview(
+    reviewId: string,
+    updateReviewDto: UpdateReviewDto,
+    userId: string,
+  ): Promise<CourseReview> {
+    const review = await this.reviewsRepository.findOne({
+      where: { id: reviewId },
+    });
 
     if (!review) {
       throw new NotFoundException('Review not found');
@@ -357,7 +530,9 @@ export class CoursesService {
 
   // Enrollment Management
   async enrollInCourse(courseId: string, userId: string): Promise<Enrollment> {
-    const course = await this.coursesRepository.findOne({ where: { id: courseId } });
+    const course = await this.coursesRepository.findOne({
+      where: { id: courseId },
+    });
 
     if (!course) {
       throw new NotFoundException('Course not found');
@@ -381,7 +556,9 @@ export class CoursesService {
 
   // Cache Invalidation
   private async invalidateCourseCache(courseId: string): Promise<void> {
-    const course = await this.coursesRepository.findOne({ where: { id: courseId } });
+    const course = await this.coursesRepository.findOne({
+      where: { id: courseId },
+    });
     if (course) {
       await this.redisService.delete(`course:${course.slug}`);
     }
