@@ -1,4 +1,10 @@
-import { Injectable, ConflictException, BadRequestException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  BadRequestException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -33,9 +39,13 @@ export class AuthService {
   async register(registerDto: RegisterDto) {
     const { name, email, password } = registerDto;
 
-    const existingUser = await this.userRepository.findOne({ where: { email } });
+    const existingUser = await this.userRepository.findOne({
+      where: { email },
+    });
     if (existingUser) {
-      throw new ConflictException('کاربری با این ایمیل از قبل ثبت‌نام کرده است.');
+      throw new ConflictException(
+        'کاربری با این ایمیل از قبل ثبت‌نام کرده است.',
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -77,7 +87,9 @@ export class AuthService {
     const storedOtp = await redis.get(`otp:${email}`);
 
     if (!storedOtp) {
-      throw new BadRequestException('کد تایید منقضی شده است. لطفاً دوباره ثبت‌نام کنید.');
+      throw new BadRequestException(
+        'کد تایید منقضی شده است. لطفاً دوباره ثبت‌نام کنید.',
+      );
     }
 
     if (storedOtp !== otp) {
@@ -116,7 +128,9 @@ export class AuthService {
     }
 
     if (!user.isActive) {
-      throw new UnauthorizedException('حساب کاربری شما فعال نشده است. لطفاً ایمیل خود را تایید کنید.');
+      throw new UnauthorizedException(
+        'حساب کاربری شما فعال نشده است. لطفاً ایمیل خود را تایید کنید.',
+      );
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
@@ -146,9 +160,9 @@ export class AuthService {
     const { refresh_token } = refreshDto;
 
     try {
-      const payload = this.jwtService.verify(refresh_token, {
+      const payload = this.jwtService.verify<JwtPayload>(refresh_token, {
         secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-      }) as JwtPayload;
+      });
 
       const redis = this.redisService.getClient();
       const storedToken = await redis.get(`refresh:${payload.userId}`);
@@ -157,7 +171,9 @@ export class AuthService {
         throw new UnauthorizedException('توکن رفرش نامعتبر است.');
       }
 
-      const user = await this.userRepository.findOne({ where: { id: payload.userId } });
+      const user = await this.userRepository.findOne({
+        where: { id: payload.userId },
+      });
       if (!user || !user.isActive) {
         throw new UnauthorizedException('کاربر یافت نشد یا غیرفعال است.');
       }
@@ -168,7 +184,7 @@ export class AuthService {
         access_token: tokens.access_token,
         refresh_token: tokens.refresh_token,
       };
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('توکن رفرش نامعتبر یا منقضی است.');
     }
   }
@@ -182,7 +198,8 @@ export class AuthService {
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
       return {
-        message: 'اگر این ایمیل در سیستم ثبت‌نام شده باشد، لینک تغییر رمز برای آن ارسال خواهد شد.',
+        message:
+          'اگر این ایمیل در سیستم ثبت‌نام شده باشد، لینک تغییر رمز برای آن ارسال خواهد شد.',
       };
     }
 
@@ -197,10 +214,13 @@ export class AuthService {
     const redis = this.redisService.getClient();
     await redis.set(`reset:${resetToken}`, user.id, 'EX', 1800);
 
-    console.log(`[DEV LOG] - Password Reset Token for ${user.email} is: ${resetToken}`);
+    console.log(
+      `[DEV LOG] - Password Reset Token for ${user.email} is: ${resetToken}`,
+    );
 
     return {
-      message: 'اگر این ایمیل در سیستم ثبت‌نام شده باشد، لینک تغییر رمز برای آن ارسال خواهد شد.',
+      message:
+        'اگر این ایمیل در سیستم ثبت‌نام شده باشد، لینک تغییر رمز برای آن ارسال خواهد شد.',
       dev_reset_token: resetToken,
     };
   }

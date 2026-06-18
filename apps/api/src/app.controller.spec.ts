@@ -15,8 +15,13 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return the Talkotopia API status payload', () => {
+      const status = appController.getSystemStatus();
+
+      expect(status.status).toBe('up');
+      expect(status.platform).toBe('Talkotopia LMS');
+      expect(status.message).toContain('تالکوتوپیا');
+      expect(status.timestamp).toBeDefined();
     });
   });
 });

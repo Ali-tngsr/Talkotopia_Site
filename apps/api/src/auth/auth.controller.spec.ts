@@ -1,5 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { RateLimitGuard } from './guards/rate-limit.guard';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -7,7 +9,24 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-    }).compile();
+      providers: [
+        {
+          provide: AuthService,
+          useValue: {
+            register: jest.fn(),
+            verifyOtp: jest.fn(),
+            login: jest.fn(),
+            refresh: jest.fn(),
+            forgotPassword: jest.fn(),
+            resetPassword: jest.fn(),
+            logout: jest.fn(),
+          },
+        },
+      ],
+    })
+      .overrideGuard(RateLimitGuard)
+      .useValue({ canActivate: jest.fn(() => true) })
+      .compile();
 
     controller = module.get<AuthController>(AuthController);
   });

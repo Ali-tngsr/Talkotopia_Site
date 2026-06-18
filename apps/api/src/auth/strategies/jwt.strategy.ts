@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayload) {
+  validate(payload: JwtPayload) {
     // اگر توکن معتبر باشد، این اطلاعات به شیء request (req.user) اضافه می‌شود
     return { userId: payload.userId, role: payload.role };
   }

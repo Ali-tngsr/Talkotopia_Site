@@ -1,6 +1,14 @@
-import { IsString, IsOptional, IsInt, IsBoolean, IsEnum, MinLength, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsInt,
+  IsBoolean,
+  IsEnum,
+  IsUrl,
+  MinLength,
+  MaxLength,
+} from 'class-validator';
 import { ContentType } from '../content-type.enum';
-import { ProcessingStatus } from '../processing-status.enum';
 
 export class CreateLessonDto {
   @IsString()
@@ -14,6 +22,17 @@ export class CreateLessonDto {
   @IsOptional()
   @IsEnum(ContentType)
   content_type?: ContentType;
+
+  @IsUrl()
+  quality_720_url: string;
+
+  @IsOptional()
+  @IsUrl()
+  quality_1080_url?: string;
+
+  @IsOptional()
+  @IsUrl()
+  quality_480_url?: string;
 
   @IsOptional()
   @IsBoolean()
@@ -36,6 +55,18 @@ export class UpdateLessonDto {
   order?: number;
 
   @IsOptional()
+  @IsUrl()
+  quality_720_url?: string;
+
+  @IsOptional()
+  @IsUrl()
+  quality_1080_url?: string;
+
+  @IsOptional()
+  @IsUrl()
+  quality_480_url?: string;
+
+  @IsOptional()
   @IsBoolean()
   is_free_preview?: boolean;
 
@@ -50,10 +81,11 @@ export class LessonResponseDto {
   title: string;
   order: number;
   content_type: ContentType;
-  storage_key: string | null;
+  quality_720_url: string;
+  quality_1080_url: string | null;
+  quality_480_url: string | null;
   duration_seconds: number | null;
   is_free_preview: boolean;
   allow_download: boolean;
-  processing_status: ProcessingStatus;
   created_at: Date;
 }

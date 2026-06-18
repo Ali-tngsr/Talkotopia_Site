@@ -1,4 +1,12 @@
-import { IsInt, IsOptional, IsString, Min, Max, MinLength, MaxLength } from 'class-validator';
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  Min,
+  Max,
+  MinLength,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateEnrollmentDto {
   @IsInt()

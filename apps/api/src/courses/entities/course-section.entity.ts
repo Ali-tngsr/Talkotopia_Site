@@ -19,7 +19,7 @@ export class CourseSection {
   @Column({ type: 'uuid' })
   course_id: string;
 
-  @ManyToOne(() => Course, course => course.sections, {
+  @ManyToOne(() => Course, (course) => course.sections, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'course_id' })
@@ -31,6 +31,6 @@ export class CourseSection {
   @Column({ type: 'int' })
   order: number;
 
-  @OneToMany(() => Lesson, lesson => lesson.section, { lazy: true })
+  @OneToMany(() => Lesson, (lesson) => lesson.section, { lazy: true })
   lessons: Promise<Lesson[]>;
 }

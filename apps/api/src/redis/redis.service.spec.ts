@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { RedisService } from './redis.service';
 
@@ -6,7 +7,15 @@ describe('RedisService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RedisService],
+      providers: [
+        RedisService,
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn((_key: string, fallback?: unknown) => fallback),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<RedisService>(RedisService);

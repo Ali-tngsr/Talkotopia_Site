@@ -17,7 +17,6 @@
 - ایجاد Enums مورد نیاز:
   - `CourseStatus`: draft, published, archived
   - `ContentType`: video, pdf, text
-  - `ProcessingStatus`: pending, processing, ready, failed
 
 ### ۲. **طراحی و پیاده‌سازی Entities (نهادها)**
 
@@ -59,11 +58,12 @@
 - title (varchar 255)
 - order (int)
 - content_type (enum: video/pdf/text)
-- storage_key (varchar - nullable)
+- quality_720_url (varchar - required)
+- quality_1080_url (varchar - nullable)
+- quality_480_url (varchar - nullable)
 - duration_seconds (int - nullable)
 - is_free_preview (boolean)
 - allow_download (boolean)
-- processing_status (enum: pending/processing/ready/failed)
 - created_at (timestamp)
 - Relations:
   - section: ManyToOne → CourseSection
@@ -126,7 +126,6 @@ apps/api/src/courses/
 │   └── course-review.entity.ts
 ├── course-status.enum.ts
 ├── content-type.enum.ts
-├── processing-status.enum.ts
 └── courses.module.ts
 ```
 
@@ -144,12 +143,7 @@ apps/api/src/courses/
 
 ## 📋 مرحله‌ی بعدی (فاز 2.2)
 
-فاز 2.2 شامل پیاده‌سازی API Endpoints برای:
-- ایجاد/ویرایش/حذف دوره‌ها (Teacher)
-- مدیریت فصل‌ها و درس‌ها
-- ثبت‌نام دانشجویان
-- دریافت لیست دوره‌ها با Pagination و Filter
-- کشینگ در Redis
+فاز 2.2 شامل پیاده‌سازی API Endpointهای دوره، فصل، جلسه، ثبت‌نام، نظر و دسترسی محتوا است.
 
 ---
 

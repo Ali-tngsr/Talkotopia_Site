@@ -1,4 +1,11 @@
-import { IsString, IsDecimal, IsOptional, IsEnum, MinLength, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsDecimal,
+  IsOptional,
+  IsEnum,
+  MinLength,
+  MaxLength,
+} from 'class-validator';
 import { CourseStatus } from '../course-status.enum';
 
 export class CreateCourseDto {

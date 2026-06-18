@@ -58,15 +58,15 @@ export class Course {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => CourseSection, section => section.course, { lazy: true })
+  @OneToMany(() => CourseSection, (section) => section.course, { lazy: true })
   sections: Promise<CourseSection[]>;
 
-  @OneToMany(() => Enrollment, enrollment => enrollment.course, {
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.course, {
     lazy: true,
   })
   enrollments: Promise<Enrollment[]>;
 
-  @OneToMany(() => CourseReview, review => review.course, { lazy: true })
+  @OneToMany(() => CourseReview, (review) => review.course, { lazy: true })
   reviews: Promise<CourseReview[]>;
 }
 
