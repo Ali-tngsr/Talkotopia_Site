@@ -6,31 +6,37 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // ۱. تنظیم پیشوند استاندارد برای تمام Endpointها (طبق نقشه راه)
+  // ۱. CORS — allow frontend origin
+  app.enableCors({
+    origin: process.env.FRONTEND_URL ?? true,
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Accept, Authorization, X-Requested-With',
+  });
+
+  // ۲. تنظیم پیشوند استاندارد برای تمام Endpointها (طبق نقشه راه)
   app.setGlobalPrefix('api/v1');
 
-  // ۲. فعال‌سازی اعتبارسنجی خودکار ورودی‌ها برای امنیت بیشتر
+  // ۳. فعال‌سازی اعتبارسنجی خودکار ورودی‌ها برای امنیت بیشتر
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // حذف فیلدهای اضافی و غیرمجاز از درخواست‌ها
-      transform: true, // تبدیل خودکار تایپ‌ها (مثلا string به number)
+      whitelist: true,
+      transform: true,
     }),
   );
 
-  // ۳. تنظیمات Swagger برای مستندسازی و تست APIها
+  // ۴. تنظیمات Swagger برای مستندسازی و تست APIها
   const config = new DocumentBuilder()
     .setTitle('Talkotopia LMS API')
     .setDescription('مستندات و محیط تست APIهای پلتفرم آموزشی')
     .setVersion('1.0')
-    .addBearerAuth() // اضافه کردن قابلیت تست توکن احراز هویت در آینده
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-
-  // مسیر دسترسی به صفحه مستندات: /api/docs
   SwaggerModule.setup('api/docs', app, document);
 
-  // ۴. تنظیم پورت و اجرای برنامه
+  // ۵. تنظیم پورت و اجرای برنامه
   const port = process.env.PORT || 3000;
   await app.listen(port);
 

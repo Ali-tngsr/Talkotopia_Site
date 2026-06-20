@@ -63,6 +63,12 @@ export class CoursesController {
     return await this.coursesService.getCourseBySlug(slug);
   }
 
+  @Get(':slug/sections')
+  @ApiOperation({ summary: 'Get course sections with lessons' })
+  async getCourseSections(@Param('slug') slug: string) {
+    return await this.coursesService.getCourseSections(slug);
+  }
+
   @Get(':id/reviews')
   @ApiOperation({ summary: 'Get reviews for a course' })
   async getCourseReviews(@Param('id') courseId: string) {
@@ -176,6 +182,16 @@ export class CoursesController {
     @CurrentUser() user: { userId: string; role: string },
   ) {
     return await this.coursesService.getMyEnrolledCourses(user.userId);
+  }
+
+  @Get('my/created')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Get current user's created courses" })
+  async getMyCreatedCourses(
+    @CurrentUser() user: { userId: string; role: string },
+  ) {
+    return await this.coursesService.getMyCreatedCourses(user.userId);
   }
 
   @Get(':courseId/lessons/:lessonId')

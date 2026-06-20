@@ -172,6 +172,38 @@ export class CoursesService {
     });
   }
 
+  async getMyCreatedCourses(userId: string): Promise<Course[]> {
+    return await this.coursesRepository.find({
+      where: { teacher_id: userId },
+      order: { created_at: 'DESC' },
+    });
+  }
+
+  async getCourseSections(slug: string): Promise<CourseSection[]> {
+    const course = await this.coursesRepository.findOne({
+      where: { slug },
+    });
+    if (!course) {
+      throw new NotFoundException('Course not found');
+    }
+
+    const sections = await this.sectionsRepository.find({
+      where: { course_id: course.id },
+      order: { order: 'ASC' },
+    });
+
+    const result = [];
+    for (const section of sections) {
+      const lessons = await this.lessonsRepository.find({
+        where: { section_id: section.id },
+        order: { order: 'ASC' },
+      });
+      result.push({ ...section, lessons });
+    }
+
+    return result;
+  }
+
   // Course Sections
   async createSection(
     courseId: string,
