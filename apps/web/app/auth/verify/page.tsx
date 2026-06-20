@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useAuth } from '../../../lib/auth';
 import { toast } from '../../components/Toast';
-import { Loader2, CheckCircle } from 'lucide-react';
+import { Loader as Loader2, CircleCheck as CheckCircle } from 'lucide-react';
 
 function VerifyForm() {
   const { verifyOtp } = useAuth();

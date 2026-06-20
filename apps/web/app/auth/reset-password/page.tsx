@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authApi } from '../../../lib/api';
 import { toast } from '../../components/Toast';
-import { Loader2, Lock, ArrowRight, CheckCircle } from 'lucide-react';
+import { Loader as Loader2, Lock, ArrowRight, CircleCheck as CheckCircle } from 'lucide-react';
 
 function ResetForm() {
   const router = useRouter();

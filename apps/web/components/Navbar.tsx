@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '../lib/auth';
 import { useState } from 'react';
-import { Menu, X, GraduationCap, BookOpen, User, LogOut, Home, ShoppingBag } from 'lucide-react';
+import { Menu, X, GraduationCap, BookOpen, User, LogOut, Hop as Home, ShoppingBag } from 'lucide-react';
 
 export function Navbar() {
   const { user, logout } = useAuth();

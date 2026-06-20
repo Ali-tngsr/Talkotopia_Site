@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { coursesApi } from '../lib/api';
 import { SkeletonGrid } from '../components/Skeleton';
 import { toast } from '../components/Toast';
-import { ArrowLeft, Star, PlayCircle } from 'lucide-react';
+import { ArrowLeft, Star, CirclePlay as PlayCircle } from 'lucide-react';
 import type { Course } from '../lib/api';
 
 export default function HomePage() {

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../lib/auth';
 import { toast } from '../../components/Toast';
-import { Loader2, Mail, Lock, User, ArrowRight } from 'lucide-react';
+import { Loader as Loader2, Mail, Lock, User, ArrowRight } from 'lucide-react';
 
 export default function RegisterPage() {
   const { user, register } = useAuth();

@@ -7,16 +7,7 @@ import { coursesApi, ordersApi } from '../../lib/api';
 import { useAuth } from '../../lib/auth';
 import { toast } from '../../components/Toast';
 import { SkeletonRow } from '../../components/Skeleton';
-import {
-  Play,
-  Lock,
-  Star,
-  ShoppingCart,
-  CheckCircle,
-  Clock,
-  ArrowLeft,
-  Loader2,
-} from 'lucide-react';
+import { Play, Lock, Star, ShoppingCart, CircleCheck as CheckCircle, Clock, ArrowLeft, Loader as Loader2 } from 'lucide-react';
 import type { Course, CourseSection, Review, Lesson } from '../../lib/api';
 
 export default function CourseDetailsPage() {

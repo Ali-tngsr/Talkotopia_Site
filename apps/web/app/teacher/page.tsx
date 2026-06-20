@@ -9,7 +9,7 @@ import { coursesApi } from '../../lib/api';
 import { useAuth } from '../../lib/auth';
 import { toast } from '../../components/Toast';
 import { SkeletonGrid, SkeletonRow } from '../../components/Skeleton';
-import { Plus, Trash, Eye, ArrowLeft, Loader2, BookOpen, CheckCircle } from 'lucide-react';
+import { Plus, Trash, Eye, ArrowLeft, Loader as Loader2, BookOpen, CircleCheck as CheckCircle } from 'lucide-react';
 import type { Course, CourseSection, Lesson } from '../../lib/api';
 
 export default function TeacherDashboardPage() {

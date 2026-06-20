@@ -8,7 +8,7 @@ import { coursesApi } from '../../lib/api';
 import { useAuth } from '../../lib/auth';
 import { toast } from '../../components/Toast';
 import { SkeletonGrid } from '../../components/Skeleton';
-import { Play, CheckCircle, ArrowLeft } from 'lucide-react';
+import { Play, CircleCheck as CheckCircle, ArrowLeft } from 'lucide-react';
 import type { Course } from '../../lib/api';
 
 export default function StudentDashboardPage() {

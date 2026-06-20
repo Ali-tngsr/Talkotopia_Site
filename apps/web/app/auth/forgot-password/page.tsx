@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { authApi } from '../../../lib/api';
 import { toast } from '../../components/Toast';
-import { Loader2, Mail, ArrowRight } from 'lucide-react';
+import { Loader as Loader2, Mail, ArrowRight } from 'lucide-react';
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
