@@ -192,7 +192,7 @@ export class CoursesService {
       order: { order: 'ASC' },
     });
 
-    const result = [];
+    const result: any[] = [];
     for (const section of sections) {
       const lessons = await this.lessonsRepository.find({
         where: { section_id: section.id },
