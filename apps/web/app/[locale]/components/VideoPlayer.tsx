@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import styles from './VideoPlayer.module.css';
 
 export type VideoQuality = '480p' | '720p' | '1080p';
@@ -20,13 +21,14 @@ type VideoPlayerProps = {
 };
 
 export function VideoPlayer({ title, sources, allowDownload = false }: VideoPlayerProps) {
+  const t = useTranslations('VideoPlayer'); // فراخوانی ترجمه‌ها از next-intl
+  
   const sortedSources = useMemo(() => {
     const qualityOrder: Record<VideoQuality, number> = {
       '480p': 0,
       '720p': 1,
       '1080p': 2,
     };
-
     return [...sources].sort((a, b) => qualityOrder[a.quality] - qualityOrder[b.quality]);
   }, [sources]);
 
@@ -34,6 +36,7 @@ export function VideoPlayer({ title, sources, allowDownload = false }: VideoPlay
     sortedSources.find((source) => source.isDefault) ??
     sortedSources.find((source) => source.quality === '720p') ??
     sortedSources[0];
+    
   const [activeSource, setActiveSource] = useState(defaultSource);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -45,10 +48,7 @@ export function VideoPlayer({ title, sources, allowDownload = false }: VideoPlay
     setActiveSource(source);
 
     window.requestAnimationFrame(() => {
-      if (!videoRef.current) {
-        return;
-      }
-
+      if (!videoRef.current) return;
       videoRef.current.currentTime = currentTime;
       if (wasPlaying) {
         void videoRef.current.play();
@@ -58,8 +58,8 @@ export function VideoPlayer({ title, sources, allowDownload = false }: VideoPlay
 
   if (!activeSource) {
     return (
-      <section className={styles.emptyState} dir="rtl">
-        هیچ لینک ویدیویی برای این جلسه ثبت نشده است.
+      <section className={styles.emptyState}>
+        {t('emptyState')}
       </section>
     );
   }
@@ -69,7 +69,7 @@ export function VideoPlayer({ title, sources, allowDownload = false }: VideoPlay
     : [];
 
   return (
-    <section className={styles.playerShell} dir="rtl" aria-label={`پلیر ویدیو ${title}`}>
+    <section className={styles.playerShell} aria-label={`Video Player ${title}`}>
       <div className={styles.videoFrame}>
         <video
           ref={videoRef}
@@ -79,21 +79,20 @@ export function VideoPlayer({ title, sources, allowDownload = false }: VideoPlay
           controls
           preload="metadata"
         >
-          مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+          {t('videoNotSupported')}
         </video>
       </div>
 
       <div className={styles.controlsPanel}>
         <div>
-          <p className={styles.eyebrow}>کیفیت فعلی</p>
+          <p className={styles.eyebrow}>{t('currentQuality')}</p>
           <h2 className={styles.title}>{title}</h2>
           <p className={styles.description}>
-            پخش با کیفیت {activeSource.quality}. کیفیت 720p پیش‌فرض است و کیفیت‌های دیگر فقط در صورت
-            ثبت URL نمایش داده می‌شوند.
+            {t('defaultInfo', { quality: activeSource.quality })}
           </p>
         </div>
 
-        <div className={styles.qualityGroup} aria-label="انتخاب کیفیت ویدیو">
+        <div className="flex gap-2" aria-label="Quality Selection">
           {sortedSources.map((source) => (
             <button
               key={source.quality}
@@ -109,7 +108,7 @@ export function VideoPlayer({ title, sources, allowDownload = false }: VideoPlay
 
       {downloadableSources.length > 0 ? (
         <div className={styles.downloadPanel}>
-          <p className={styles.eyebrow}>دانلود فایل</p>
+          <p className={styles.eyebrow}>{t('downloadFile')}</p>
           <div className={styles.downloadLinks}>
             {downloadableSources.map((source) => (
               <a
@@ -118,13 +117,13 @@ export function VideoPlayer({ title, sources, allowDownload = false }: VideoPlay
                 href={source.url}
                 download={source.filename ?? `${title}-${source.quality}.mp4`}
               >
-                دانلود {source.quality}
+                {t('downloadQuality', { quality: source.quality })}
               </a>
             ))}
           </div>
         </div>
       ) : (
-        <p className={styles.downloadDisabled}>دانلود برای این جلسه فعال نیست.</p>
+        <p className={styles.downloadDisabled}>{t('downloadDisabled')}</p>
       )}
     </section>
   );

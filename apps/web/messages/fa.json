@@ -1,1 +1,16 @@
-{}
+{
+  "Common": {
+    "toman": "تومان",
+    "free": "رایگان",
+    "teacher": "مدرس دوره"
+  },
+  "VideoPlayer": {
+    "emptyState": "هیچ لینک ویدیویی برای این جلسه ثبت نشده است.",
+    "currentQuality": "کیفیت فعلی",
+    "defaultInfo": "پخش با کیفیت {quality}. کیفیت 720p پیش‌فرض است.",
+    "downloadFile": "دانلود فایل",
+    "downloadQuality": "دانلود {quality}",
+    "downloadDisabled": "دانلود برای این جلسه فعال نیست.",
+    "videoNotSupported": "مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند."
+  }
+}

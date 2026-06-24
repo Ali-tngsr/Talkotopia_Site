@@ -1,1 +1,16 @@
-{}
+{
+  "Common": {
+    "toman": "Toman",
+    "free": "Free",
+    "teacher": "Instructor"
+  },
+  "VideoPlayer": {
+    "emptyState": "No video links registered for this session.",
+    "currentQuality": "Current Quality",
+    "defaultInfo": "Playing in {quality}. 720p is the default.",
+    "downloadFile": "Download File",
+    "downloadQuality": "Download {quality}",
+    "downloadDisabled": "Downloads are disabled for this session.",
+    "videoNotSupported": "Your browser does not support the video tag."
+  }
+}

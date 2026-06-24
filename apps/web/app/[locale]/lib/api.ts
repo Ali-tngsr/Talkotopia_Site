@@ -10,6 +10,14 @@ export class ApiError extends Error {
   }
 }
 
+// ========== 1. NEW: Locale Helper ==========
+// Reads the <html lang="fa"> tag set dynamically by next-intl in layout.tsx
+function getLocale(): string {
+  if (typeof window === 'undefined') return 'fa'; // Default fallback for SSR
+  return document.documentElement.lang || 'fa';
+}
+// ===========================================
+
 async function getAccessToken(): Promise<string | null> {
   if (typeof window === 'undefined') return null;
   return localStorage.getItem('access_token');
@@ -78,10 +86,14 @@ export async function apiRequest<T = unknown>(
   const url = `${API_BASE}${path}`;
   let token = await getAccessToken();
 
+  // ========== 2. INJECTED Accept-Language ==========
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
+    'Accept-Language': getLocale(), // Tells NestJS which language to return
     ...((options.headers as Record<string, string>) ?? {}),
   };
+  // =================================================
+
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
