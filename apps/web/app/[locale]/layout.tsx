@@ -52,9 +52,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <ToastContainer />
-            <Navbar />
             <main className="min-h-[calc(100vh-64px-120px)]">{children}</main>
-            <Footer />
           </AuthProvider>
         </NextIntlClientProvider>
       </body>
