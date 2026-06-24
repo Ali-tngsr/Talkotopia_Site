@@ -3,7 +3,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { AuthProvider } from "../lib/auth";
+import { AuthProvider } from "@/lib/auth";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { ToastContainer } from "./components/Toast";
@@ -34,11 +34,12 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  params: { locale }
+  params
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
   const messages = await getMessages();
   const dir = locale === 'fa' ? 'rtl' : 'ltr';
 

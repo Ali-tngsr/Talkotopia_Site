@@ -4,6 +4,81 @@
     "free": "Free",
     "teacher": "Instructor"
   },
+  "HomePage": {
+    "nav": {
+      "logo": "Talkotopia",
+      "logoSub": "Language land",
+      "links": {
+        "courses": "Courses",
+        "shop": "Shop",
+        "student": "Student panel",
+        "teacher": "Teachers"
+      },
+      "login": "Log in",
+      "signup": "Sign up",
+      "language": "FA",
+      "languageAria": "Switch language to Persian"
+    },
+    "hero": {
+      "badge": "Welcome to a playful language adventure",
+      "headline": "Speak with confidence in your own language wonderland.",
+      "body": "Talkotopia brings recorded language courses, friendly instructors, and a cheerful learning path together for kids, teens, and curious grown-ups.",
+      "primaryCta": "Explore courses",
+      "secondaryCta": "Continue learning",
+      "floatOne": "Daily smiles",
+      "floatTwo": "New words!",
+      "mascotLabel": "Talko buddy"
+    },
+    "courses": {
+      "eyebrow": "Featured classes",
+      "title": "Swipe through popular courses",
+      "viewAll": "View All Courses",
+      "priceLabel": "Price",
+      "items": [
+        {
+          "slug": "english-adventures-a1",
+          "title": "English Adventures A1 / ماجراجویی انگلیسی A1",
+          "subtitle": "Bilingual beginner course",
+          "instructor": "Sara Mehr",
+          "rating": "4.9",
+          "price": "1,250,000",
+          "tag": "English"
+        },
+        {
+          "slug": "french-playground",
+          "title": "French Playground / زمین بازی فرانسه",
+          "subtitle": "Songs, stories, and speaking practice",
+          "instructor": "Nima Laurent",
+          "rating": "4.8",
+          "price": "1,480,000",
+          "tag": "French"
+        },
+        {
+          "slug": "german-for-curious-kids",
+          "title": "German for Curious Kids / آلمانی کودکان کنجکاو",
+          "subtitle": "Gentle grammar with fun missions",
+          "instructor": "Mina Weber",
+          "rating": "4.7",
+          "price": "1,390,000",
+          "tag": "German"
+        },
+        {
+          "slug": "ielts-speaking-spark",
+          "title": "IELTS Speaking Spark / جرقه اسپیکینگ آیلتس",
+          "subtitle": "Confidence drills for teens and adults",
+          "instructor": "Arman Lee",
+          "rating": "4.9",
+          "price": "1,950,000",
+          "tag": "IELTS"
+        }
+      ]
+    },
+    "shop": {
+      "eyebrow": "Our Shop",
+      "title": "A cozy corner for future learning goodies.",
+      "body": "Flashcards, notebooks, story packs, and Talkotopia mascot items will live here soon. The section is ready for your first shop collection."
+    }
+  },
   "VideoPlayer": {
     "emptyState": "No video links registered for this session.",
     "currentQuality": "Current Quality",
